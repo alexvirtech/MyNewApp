@@ -40,14 +40,12 @@
                 <option value="bnb">BNB - Binance Coin</option>
             </select>
             </div>
-            <!--<div>Name:</div>
-            <div class="col-span-3 font-bold" id="name"></div>-->
             <div>Description:</div>
-            <div class="col-span-3" id="description"></div>
+            <div class="col-span-3" id="description"></div>    
             <div>Web site:</div>
             <div class="col-span-3">
                 <a id="site" class="text-blue-400" target="_blank"></a>
-            </div>
+            </div>       
         </div>
     </div>
 
@@ -56,11 +54,12 @@
             fetch(`https://api.mtw-testnet.com/assets/${symbol}`)
                 .then(response => response.json())
                 .then(data => {
-                    console.log(data)
-                    //document.getElementById('name').innerHTML = data.name
+                    console.log(data)                    
                     document.getElementById('description').innerHTML = data.summary
                     document.getElementById('site').innerHTML = data.website
                     document.getElementById('site').href = data.website
+                    // this function must be calle if the page heihgt changed dynmically
+                    sendHeightToParent()
                 })
 
         }
