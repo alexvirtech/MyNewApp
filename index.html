@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My First HTML SPA</title>
+    <!--
+        The tailwind CDN is designed for development purposes only, 
+        and is not the best choice for production.
+        Read more here: https://tailwindcss.com/docs/installation 
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- example for dark theme styling when using tailwind cdn -->
+    <style>
+        .dark .dark\:text-white {
+            color: #fff;
+        }
+
+        /*add your custom css rules here*/
+    </style>
+</head>
+
+<body class="dark:text-white">
+
+    <div class="max-w-[500px] my-6 mx-auto">
+        <div>
+            <select class="border-2 border-gray-300 rounded-md py-1 px-3" 
+                    onchange="selectCoin(event)" id="symbols">
+                <option value="btc" selected>BTC</option>
+                <option value="eth">ETH</option>
+                <option value="bnb">BNB</option>
+            </select>
+        </div>
+        <div class="grid grid-cols-4 gap-2 pt-4">
+            <div>Name:</div>
+            <div class="col-span-3" id="name"></div>
+            <div>Description:</div>
+            <div class="col-span-3" id="description"></div>
+            <div>Web site:</div>
+            <div class="col-span-3">
+                <a id="site" class="text-blue-400" target="_blank"></a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const setCoin = (symbol) => {
+            fetch(`https://api.mtw-testnet.com/assets/${symbol}`)
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data)
+                    document.getElementById('name').innerHTML = data.name
+                    document.getElementById('description').innerHTML = data.summary
+                    document.getElementById('site').innerHTML = data.website
+                    document.getElementById('site').href = data.website
+                })
+
+        }
+        setCoin(document.getElementById('symbols').value)
+        const selectCoin = (e) => {
+            setCoin(e.target.value)
+        }
+    </script>
+
+
+    <!-- special scripts for integration in MTW gallery,  
+         must be placed at the bottom of the HTML after your code -->
+    <script>
+        // custom config for the MTW app 
+        const mtwAppConfig = {
+            border: true // app border in the MTW page                    
+        }
+    </script>
+    <script src="https://morethanwallet.com/appstore/index.js"></script>
+</body>
+
+</html>
